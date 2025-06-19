@@ -14,7 +14,7 @@ const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE';
 app.post('/generate-prompt', async (req, res) => {
   const { userInput } = req.body;
 
-  const promptForGPT = \`You're an elite AI prompt generator. A user typed: "\${userInput}". Give them:
+  const promptForGPT = `You're an elite AI prompt generator. A user typed: "\${userInput}". Give them:
   1. A perfect viral ChatGPT prompt
   2. A YouTube Shorts script idea
   3. A Midjourney image prompt
