@@ -7,7 +7,8 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // STOP form from refreshing page!
     try {
-      const res = await fetch('/api/generate', {
+     const res = await fetch('https://prompt-plug-lix1.vercel.app/api/generate', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userInput: input }),
