@@ -1,39 +1,41 @@
-
 import React, { useState } from 'react';
-import './App.css';
 
 function App() {
   const [input, setInput] = useState('');
-  const [prompt, setPrompt] = useState('');
+  const [response, setResponse] = useState('');
 
-  const generatePrompt = async () => {
-    const res = await fetch('https://promptplug-backend.onrender.com/generate-prompt', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userInput: input })
-    });
-    const data = await res.json();
-    setPrompt(data.prompt);
+  const handleSubmit = async () => {
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInput: input }),
+      });
+
+      const data = await res.json();
+      setResponse(data.prompt);
+    } catch (error) {
+      console.error('Error:', error);
+      setResponse('Something went wrong!');
+    }
   };
 
   return (
-    <div className="App">
+    <div style={{ textAlign: 'center', padding: '50px' }}>
       <h1>🔥 PromptPlug</h1>
       <p>Your personal viral prompt engine</p>
       <input
         type="text"
-        placeholder="Type your idea..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        style={{ padding: '10px', width: '300px' }}
       />
-      <button onClick={generatePrompt}>Generate Viral Prompt</button>
-      {prompt && (
-        <div className="output">
-          <h2>Generated Prompt:</h2>
-          <pre>{prompt}</pre>
-        </div>
-      )}
-      <footer>© PromptPlug by D Trendz • Powered by AI</footer>
+      <button onClick={handleSubmit} style={{ marginLeft: '10px', padding: '10px' }}>
+        Generate Viral Prompt
+      </button>
+      <div style={{ marginTop: '30px', fontWeight: 'bold' }}>
+        {response}
+      </div>
     </div>
   );
 }
