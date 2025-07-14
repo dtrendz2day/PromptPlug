@@ -1,3 +1,5 @@
+import { Configuration, OpenAIApi } from 'openai';
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
@@ -6,9 +8,19 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'No input provided' });
       }
 
-      const fakePrompt = `Here's a viral prompt for "${userInput}" → Go make the internet explode! 💥🚀`;
+      const configuration = new Configuration({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      const openai = new OpenAIApi(configuration);
 
-      return res.status(200).json({ prompt: fakePrompt });
+      const completion = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: userInput }],
+      });
+
+      const aiResponse = completion.data.choices[0].message.content;
+
+      return res.status(200).json({ prompt: aiResponse });
     } catch (error) {
       console.error('❌ API Error:', error);
       return res.status(500).json({ message: 'Internal Server Error' });
@@ -18,4 +30,3 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 }
-
