@@ -1,3 +1,4 @@
+# Trigger redeploy
 # PromptPlug™ – Your AI-Powered Viral Prompt Generator
 
 PromptPlug is your ultimate creative sidekick. Enter any idea or question and instantly get:
